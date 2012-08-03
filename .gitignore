@@ -1,0 +1,10 @@
+*~
+*#
+_*
+*.elc
+*.bak
+*.log
+*.backup
+*.cache
+*.asv
+*loaddefs*
