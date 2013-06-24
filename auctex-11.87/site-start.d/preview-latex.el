@@ -4,7 +4,7 @@
 
 
 ;;;### (autoloads (preview-report-bug LaTeX-preview-setup preview-install-styles)
-;;;;;;  "preview" "preview.el" (19772 31043))
+;;;;;;  "preview" "preview.el" (19772 31044))
 ;;; Generated autoloads from preview.el
 
 (autoload 'preview-install-styles "preview" "\
@@ -44,6 +44,6 @@ Report a bug in the preview-latex package.
 ;; End:
 ;;; preview-latex.el ends here
 
-(add-to-list 'load-path (expand-file-name "auctex" (file-name-directory load-file-name)))
-(defvar preview-datadir (expand-file-name "auctex" (file-name-directory load-file-name)))
-
+(add-to-list 'load-path (expand-file-name "../auctex" (file-name-directory load-file-name)))
+(defvar preview-datadir (expand-file-name "../auctex" (file-name-directory load-file-name)))
+(defvar preview-TeX-style-dir (expand-file-name "../auctex/latex" (file-name-directory load-file-name)))
