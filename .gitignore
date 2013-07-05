@@ -8,4 +8,4 @@ _*
 *.cache
 *.asv
 *loaddefs*
-/cedet
+/cedet*
