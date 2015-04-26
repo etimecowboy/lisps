@@ -1,0 +1,7 @@
+<lisp>
+  (loop for YEAR in (ob:get-posts nil nil nil 'year)
+  do (let ((POSTS (ob:get-posts (lambda(x) (= YEAR (ob:post-year x))))))
+  (insert (format "<div id=\"%s-%s\">" (ob:get 'safe CATEGORY) YEAR))
+    (ob:insert-template "index_year.html")
+    (insert "</div>")))
+</lisp>

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="<lisp>(ob:blog-language BLOG)</lisp>">
+  <head>
+    <meta charset="utf-8"/>
+    <title><lisp>(ob:get-post-or-blog-title)</lisp></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="generator" content="<lisp>(o-blog-version)</lisp>"/>
+    <link rel="icon" type="image/png" href="<lisp>(ob:path-to-root)</lisp>/style/img/favicon.png" />
+    <script src="<lisp>(ob:path-to-root)</lisp>/style/js/sidjs.min.js" async></script>
+    <script>
+      <lisp>(ob:insert-file (format "%s/js/runif.min.js" (ob:get 'style-dir BLOG)))</lisp>
+      <lisp>(ob:insert-file (format "%s/js/o-blog-init.min.js" (ob:get 'style-dir BLOG)))</lisp>
+    </script>
+  </head>
+  <body>
+    <div id="spinner" style="width:100%;height:100%;position:fixed;top:0;bottom:0;left:0;right:0;margin:auto;z-index:999998;background-color:rgba(0,0,0,0.5);">
+      <div id="ob-spinner" style="width:100px;height:100px;position:fixed;top:0;bottom:0;left:0;right:0;margin:auto;z-index:999999;background-color:rgba(127,127,127,0.5);"></div>
+    </div>
+    <div id="page" class="container">

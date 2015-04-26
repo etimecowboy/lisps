@@ -1,0 +1,18 @@
+<div class="ob-share">
+  <div class="title">If you like this article you may want to share it</div>
+  <div class="social-container">
+    <lisp>
+      (when (ob:get 'twitter-account BLOG)
+      (format "<a href=\"#\" data-type=\"twitter\" data-description=%S data-via=%S class=\"prettySocial fa fa-twitter\"></a>" (ob:get 'title POST) (ob:get 'twitter-account BLOG)))
+    </lisp>
+    <lisp>
+      (when (ob:get 'google-plus BLOG)
+      (format "<a href=\"#\" data-type=\"googleplus\" data-description=%S  class=\"prettySocial fa fa-google-plus\"></a>" (ob:get 'title POST)))
+    </lisp>
+    <lisp>
+      (when (ob:get 'share-linkedin BLOG)
+      (format "<a href=\"#\" data-type=\"linkedin\" data-title=%S data-description=%S class=\"prettySocial fa fa-linkedin\"></a>" (ob:get 'title POST) (ob:unhtmlize (ob:get 'excerpt POST))))
+    </lisp>
+  </div>
+</div>
+

@@ -1,0 +1,7 @@
+<lisp>
+  (loop for MONTH in (ob:get-posts nil nil nil 'month)
+  do (let ((POSTS (ob:get-posts (lambda(x) (= MONTH (ob:post-month x))))))
+  (insert (format "<div id=\"%s-%s-%s\">" (ob:get 'safe CATEGORY) YEAR MONTH))
+    (ob:insert-template "index_month.html")
+    (insert "</div>")))
+</lisp>

@@ -1,0 +1,15 @@
+<lisp>(ob:insert-template "page_header.html")</lisp>
+<article>
+  <header class="article-header">
+    <div class="page-header">
+      	<h1><lisp>(ob:get 'title POST)</lisp></h1>
+    </div>
+  </header>
+  <div class="article-content">
+    <lisp>
+      (ob:post-content-html POST)
+    </lisp>
+  </div>
+  <lisp>(when (ob:get 'disqus BLOG) (ob:insert-template "plugin_disqus.html"))</lisp>
+</article>
+<lisp>(ob:insert-template "page_footer.html")</lisp>

@@ -1,0 +1,71 @@
+      </div>
+    <div class="ob-navbar-container">
+    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+      <div class="navbar-header">
+	<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".ob-navbar">
+	  <span class="sr-only">Toggle navigation</span>
+	  <span class="icon-bar"></span>
+	  <span class="icon-bar"></span>
+	  <span class="icon-bar"></span>
+	</button>
+	<a class="navbar-brand" href="<lisp>(ob:path-to-root)</lisp>/index.html"><lisp>(ob:blog-title BLOG)</lisp></a>
+      </div>
+      <div class="collapse navbar-collapse ob-navbar">
+	<lisp>(ob:post-content-html (ob:get-snippet "Navigation"))</lisp>
+      </div>
+    </nav>
+
+    <div class="subnav subnav-fixed visible-desktop">
+      <div class="container">
+	<lisp>(ob:insert-template "nav_breadcrumb.html")</lisp>
+      </div>
+    </div>
+    </div>
+
+<div id="footer">
+	<div class="container">
+	  <div class="row">
+	    <nav class="col-md-3 col-sm-3 col-xs-6">
+	      <h2><lisp>(ob:gettext :about)</lisp></h2>
+	      <!-- about -->
+	      <lisp>(ob:post-content-html (ob:get-snippet "About"))</lisp>
+	      <!-- /about -->
+	    </nav>
+	    <nav id="links" class="col-md-3 col-sm-3 col-xs-6">
+	      <h2><lisp>(ob:gettext :links)</lisp></h2>
+	      <!-- Navigation Footer -->
+	      <lisp>(ob:post-content-html (ob:get-snippet "Navigation Footer"))</lisp>
+	      <!-- Navigation Footer -->
+	    </nav>
+	    <nav id="archives" class="col-md-3 col-sm-3 col-xs-6">
+	      <h2><a href="<lisp>(ob:path-to-root)</lisp>/archives.html"><lisp>(ob:gettext :archives)</lisp></a></h2>
+	      <lisp>
+		(let ((POSTS ALL-POSTS))
+(loop for CATEGORY in (ob:get-posts nil nil nil 'category)
+do (insert (format
+"<div>
+<h6><a href=\"%s/%s/index.html\">%s</a></h6>
+<div class=\"ob-articles\" data-source=\"%s/articles.js\" data-path-to-root=\"%s\" data-category=\"%s\"></div>
+</div>" (ob:path-to-root) (ob:get 'safe CATEGORY) (ob:get 'display CATEGORY) (ob:path-to-root) (ob:path-to-root) (ob:get 'display CATEGORY)))))
+	      </lisp>
+	    </nav>
+	    <nav class="tags col-md-3 col-sm-3 col-xs-6">
+	      <h2><a href="<lisp>(ob:path-to-root)</lisp>/tags/index.html"><lisp>(ob:gettext :tags)</lisp></a></h2>
+	      <span class="ob-tagcloud" data-source="<lisp>(ob:path-to-root)</lisp>/tags.js" data-path-to-root="<lisp>(ob:path-to-root)</lisp>"></span>
+	    </nav>
+	  </div>
+	</div>
+	<div class="copyright" style="text-align: center;">
+	  <!-- copyright -->
+	  <lisp>(ob:post-content-html (ob:get-snippet "Copyright"))</lisp>
+	  <p><lisp>(ob:gettext :powered-by)</lisp> <a href="https://github.com/renard/o-blog">o-blog</a>.</p>
+	  <p>
+	    <a href="http://validator.w3.org/check?uri=<lisp>(url-hexify-string (ob:get-page-url))</lisp>" data-toggle="tooltip" data-placement="top" title="HTML 5 valid"><i class="fa fa-html5"></i></a>
+	    <a href="http://jigsaw.w3.org/css-validator/validator?uri=<lisp>(url-hexify-string (ob:get-page-url))</lisp>" data-toggle="tooltip" data-placement="top" title="CSS 3 valid"><i class="fa fa-css3"></i></a>
+	    <a href="https://www.google.com/webmasters/tools/mobile-friendly/?url=<lisp>(url-hexify-string (ob:get-page-url))</lisp>" data-toggle="tooltip" data-placement="top" title="Mobile friendly"><i class="fa fa-mobile"></i></a>
+	    <a href="https://developers.google.com/speed/pagespeed/insights/?url=<lisp>(url-hexify-string (ob:get-page-url))</lisp>" data-toggle="tooltip" data-placement="top" title="PageSpeed Insights"><i class="fa fa-flag-checkered"></i></a>
+	  </p>
+	</div>
+      </div>
+</body>
+</html>
