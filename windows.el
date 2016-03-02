@@ -1,9 +1,10 @@
-;;; -*- Emacs-Lisp -*-
-;;; Window manager for GNU Emacs.
-;;; $Id: windows.el,v 2.48 2010/05/23 12:33:40 yuuji Exp $
-;;; (c) 1993-2010 by HIROSE Yuuji [yuuji@gentei.org]
-;;; Last modified Sun May 23 21:27:31 2010 on firestorm
+;;; windows.el --- Window manager for GNU Emacs. -*- coding: euc-jp -*-
+;;; $Id: windows.el,v 2.49 2014/05/22 23:00:25 yuuji Exp $
+;;; (c) 1993-2014 by HIROSE Yuuji [yuuji@gentei.org]
+;;; Last modified Fri May 23 07:54:23 2014 on firestorm
 
+;;; Commentary:
+;;;
 ;;;		Window manager for GNU Emacs
 ;;;
 ;;;[What is Windows?]
@@ -629,12 +630,10 @@
 ;;;	プログラムを使用して生じたいかなる結果に対しても作者は一切の責任
 ;;;	を負わないものといたしますが、コメントやバグレポートは大いに歓迎
 ;;;	いたします。お気軽にご連絡下さい。連絡は以下のアドレスまでお願い
-;;;	いたします(2008/6現在)。
+;;;	いたします(2014/4現在)。
 ;;;							yuuji@gentei.org
 
-;;;
-;; Code
-;;;
+;;; Code:
 
 ;; ---------- Customizable variables
 (defvar win:max-configs 10
@@ -807,6 +806,11 @@ make-frame function."
   "*Non-nil means switch windows with frame.")
 (and (fboundp 'eval-when-compile)
      (eval-when-compile (require 'revive)))
+
+;; for Emacs-24.3+ and NEmacs
+(defun win:last-key ()
+  "Return last-command-event or last-command-char."
+  (if (boundp 'last-command-char) last-command-char last-command-event))
 
 (if win:switch-map nil
   (setq win:switch-map (make-sparse-keymap)
@@ -1085,6 +1089,8 @@ Non-nil for ARG kills all visible buffer."
 	  (setq win cwin)
 	  (while (not (eq cwin (setq win (next-window win))))
 	    (setq blist (cons (window-buffer win) blist)))))
+    (win:adjust-window)
+    (win:store-config win:current-config)
     (win:delete-window win:current-config arg)
     (if (and arg (/= cc win:current-config))
 	(progn
@@ -1108,10 +1114,11 @@ Non-nil for ARG kills all visible buffer."
 If calling from program, optional second argument WINDOW can specify
 the window number."
   (interactive "p")
-  (let*((window (or window
-                    (if (and (> ?\M-0 0) (<= ?\M-0 last-command-char))
-                        (- last-command-char ?\M-0)
-                      (- last-command-char win:base-key))))
+  (let*((lc (win:last-key))
+	(window (or window
+                    (if (and (> ?\M-0 0) (<= ?\M-0 lc))
+                        (- lc ?\M-0)
+                      (- lc win:base-key))))
 	(wc (aref win:configs window)))
     (cond
      ((and win:inhibit-switch-in-minibuffer
@@ -1566,7 +1573,7 @@ Do not call this function."
 ;; Functions for resume.
 ;;;
 (defconst win:revision
-  "$Revision: 2.48 $"
+  "$Revision: 2.49 $"
   "Revision string of windows.el")
 (defvar win:revision-prefix ";win;")
 
@@ -2133,7 +2140,7 @@ If interactive argument KILL is non-nil, kill menu buffer and no select."
 (defun win-switch-menu-select-directly ()
   "Select the window directly from the keyboard in window selection menu."
   (interactive)
-  (let ((num (- last-command-char win:base-key)))
+  (let ((num (- (win:last-key) win:base-key)))
     (and
      (eq (get-buffer win:switch-menu-buffer) (current-buffer))
      (< num win:max-configs)
@@ -2153,7 +2160,7 @@ If interactive argument KILL is non-nil, kill menu buffer and no select."
    (progn (beginning-of-line) (looking-at "[ A-Z]+(.)"))
    (let (buffer-read-only)		;bound to nil
      (delete-char 1)
-     (insert (if unmark " " (char-to-string (upcase last-command-char))))
+     (insert (if unmark " " (char-to-string (upcase (win:last-key)))))
      (forward-line 1)
      (and (eobp) (forward-line -1)))))
 
@@ -2293,6 +2300,10 @@ If interactive argument KILL is non-nil, kill menu buffer and no select."
 (run-hooks 'win-load-hook)
 
 ;; $Log: windows.el,v $
+;; Revision 2.49  2014/05/22 23:00:25  yuuji
+;; Fix error on window deletion right after its generation.
+;; (Thanks to Thomas Schwinge)
+;;
 ;; Revision 2.48  2010/05/23 12:33:40  yuuji
 ;; Workaround for frame focus on CarbonEmacs.
 ;; Thanks to nabechan.
